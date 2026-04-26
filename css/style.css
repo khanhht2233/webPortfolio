@@ -37,7 +37,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar .container {
@@ -71,17 +71,20 @@ body {
     transition: var(--transition);
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--primary-color);
 }
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    background: linear-gradient(135deg, #1a1a1a, #4a0000);
+    /* Dán mã màu mới vào đây */
     color: var(--white);
     padding: 100px 0 60px;
     text-align: center;
 }
+
 
 .profile-img-container {
     margin-bottom: 20px;
@@ -91,9 +94,10 @@ body {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    border: 5px solid rgba(255,255,255,0.2);
+    border: 5px solid rgba(255, 255, 255, 0.2);
     object-fit: cover;
     transition: transform 0.5s ease;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
 }
 
 .profile-img:hover {
@@ -103,6 +107,7 @@ body {
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
+    color: #ffffff;
 }
 
 .small-hero {
@@ -115,21 +120,28 @@ body {
 
 .subtitle {
     font-size: 1.2rem;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 20px;
 }
 
 .social-links a {
-    color: var(--white);
+    color: #ffffff;
+    /* Ép icon sang màu trắng */
     font-size: 1.5rem;
     margin: 0 10px;
     transition: var(--transition);
+    opacity: 0.8;
+    /* Để hơi mờ một chút */
 }
 
 .social-links a:hover {
     color: #ffce00;
+    /* Khi di chuột vào vẫn hiện màu vàng kim như cũ */
+    opacity: 1;
+    /* Hiện rõ lên khi di chuột */
     transform: translateY(-3px);
 }
+
 
 /* Common Sections */
 .section-title {
@@ -155,7 +167,7 @@ body {
     background: var(--white);
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
 }
 
@@ -171,13 +183,13 @@ body {
     padding: 40px 30px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     transition: var(--transition);
 }
 
 .goal-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .goal-card i {
@@ -213,7 +225,7 @@ body {
     background: var(--white);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     transition: var(--transition);
 }
 
@@ -298,9 +310,42 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .nav-links {
-        display: none; /* Đơn giản hóa cho bản mẫu */
+        display: none;
+        /* Đơn giản hóa cho bản mẫu */
     }
+
     .hero h1 {
         font-size: 2rem;
     }
+}
+
+/* Nút chuyển đổi */
+.theme-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+/* Định nghĩa màu sắc cho chế độ tối */
+body.dark-theme {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --white: #1e1e1e;
+    --secondary-color: #ffffff;
+}
+
+/* Chỉnh sửa thêm cho các thẻ card trong chế độ tối */
+body.dark-theme .card,
+body.dark-theme .goal-card,
+body.dark-theme .project-card {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+body.dark-theme .navbar {
+    background: #1a1a1a;
 }

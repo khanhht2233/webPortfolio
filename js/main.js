@@ -1,35 +1,50 @@
+// Hàm kiểm tra và áp dụng chế độ tối ngay lập tức để tránh bị nháy trang
+(function initTheme() {
+    if (localStorage.getItem('dark-mode') === 'enabled') {
+        document.body.classList.add('dark-theme');
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Khởi tạo AOS (Animate On Scroll)
+    // 1. Khởi tạo hiệu ứng AOS
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,
             easing: 'ease-in-out',
-            once: true,
-            mirror: false
+            once: true
         });
     }
 
-    // Hiệu ứng smooth scroll cho các link (nếu có anchor)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
+    // 2. Xử lý Dark Mode
+    const toggleBtn = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+
+    if (toggleBtn) {
+        const icon = toggleBtn.querySelector('i');
+
+        // Cập nhật icon đúng theo trạng thái hiện tại
+        if (body.classList.contains('dark-theme')) {
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+
+            if (body.classList.contains('dark-theme')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('dark-mode', 'disabled');
             }
         });
-    });
+    }
 
-    // Xử lý active link trên navbar dựa trên URL hiện tại
+    // 3. Xử lý active link trên navbar
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-links a').forEach(link => {
-        const linkPath = link.getAttribute('href');
-        if (linkPath === currentPath) {
+        if (link.getAttribute('href') === currentPath) {
             link.classList.add('active');
-        } else {
-            link.classList.remove('active');
         }
     });
 });
