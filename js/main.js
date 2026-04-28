@@ -53,16 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let targetScrollY = window.scrollY;
         let currentScrollY = window.scrollY;
         let isSmoothScrolling = false;
+        let rafId = null;
 
         const animateSmoothScroll = () => {
             const delta = targetScrollY - currentScrollY;
-            currentScrollY += delta * 0.12;
+            currentScrollY += delta * 0.14;
 
             if (Math.abs(delta) < 0.5) {
                 currentScrollY = targetScrollY;
                 isSmoothScrolling = false;
+                rafId = null;
             } else {
-                requestAnimationFrame(animateSmoothScroll);
+                rafId = requestAnimationFrame(animateSmoothScroll);
             }
 
             window.scrollTo(0, currentScrollY);
@@ -77,10 +79,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isSmoothScrolling) {
                 isSmoothScrolling = true;
-                requestAnimationFrame(animateSmoothScroll);
+                rafId = requestAnimationFrame(animateSmoothScroll);
             }
         }, {
             passive: false
+        });
+
+        // Đồng bộ lại vị trí khi người dùng cuộn bằng cách khác (phím, kéo thanh cuộn)
+        window.addEventListener('scroll', () => {
+            if (!isSmoothScrolling) {
+                targetScrollY = window.scrollY;
+                currentScrollY = window.scrollY;
+            }
+        }, {
+            passive: true
+        });
+
+        window.addEventListener('resize', () => {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY));
+            currentScrollY = Math.max(0, Math.min(maxScroll, currentScrollY));
+            if (isSmoothScrolling && rafId === null) {
+                rafId = requestAnimationFrame(animateSmoothScroll);
+            }
         });
     }
 
