@@ -15,6 +15,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 1.1 Hiệu ứng cuộn: thanh tiến trình + nút lên đầu trang
+    const scrollProgress = document.createElement('div');
+    scrollProgress.className = 'scroll-progress';
+    document.body.appendChild(scrollProgress);
+
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.setAttribute('aria-label', 'Lên đầu trang');
+    backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    document.body.appendChild(backToTopBtn);
+
+    const updateScrollEffects = () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+
+        scrollProgress.style.width = `${progress}%`;
+        backToTopBtn.classList.toggle('show', scrollTop > 280);
+    };
+
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    window.addEventListener('scroll', updateScrollEffects, {
+        passive: true
+    });
+    updateScrollEffects();
+
     // 2. Xử lý Dark Mode
     const toggleBtn = document.getElementById('dark-mode-toggle');
     const body = document.body;
