@@ -47,6 +47,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     updateScrollEffects();
 
+    // 1.2 Làm mượt thao tác lăn chuột lên/xuống (desktop)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+        let targetScrollY = window.scrollY;
+        let currentScrollY = window.scrollY;
+        let isSmoothScrolling = false;
+
+        const animateSmoothScroll = () => {
+            const delta = targetScrollY - currentScrollY;
+            currentScrollY += delta * 0.12;
+
+            if (Math.abs(delta) < 0.5) {
+                currentScrollY = targetScrollY;
+                isSmoothScrolling = false;
+            } else {
+                requestAnimationFrame(animateSmoothScroll);
+            }
+
+            window.scrollTo(0, currentScrollY);
+        };
+
+        window.addEventListener('wheel', (event) => {
+            if (event.ctrlKey) return;
+
+            event.preventDefault();
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY + event.deltaY));
+
+            if (!isSmoothScrolling) {
+                isSmoothScrolling = true;
+                requestAnimationFrame(animateSmoothScroll);
+            }
+        }, {
+            passive: false
+        });
+    }
+
     // 2. Xử lý Dark Mode
     const toggleBtn = document.getElementById('dark-mode-toggle');
     const body = document.body;
